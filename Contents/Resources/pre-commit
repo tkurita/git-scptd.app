@@ -5,7 +5,7 @@ find $dir -type f -name '*.scpt' | while read scpt; do
   test -e "$dir/$bname".applescript
   eflag=$?
   osadecompile $dir/$bname.scpt > $dir/$bname.applescript
-  if [ $eflag = 0 ];then
+  if [ $eflag != 0 ];then
     git add $dir/$bname.applescript
   fi
 done

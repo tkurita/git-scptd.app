@@ -28,7 +28,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>git scptd</string>
+	<string>git-scptd</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
@@ -39,6 +39,8 @@
 		<string>10.6</string>
 	</dict>
 	<key>LSRequiresCarbon</key>
+	<true/>
+	<key>LSUIElement</key>
 	<true/>
 	<key>WindowState</key>
 	<dict>
@@ -51,11 +53,9 @@
 		<key>positionOfDivider</key>
 		<real>333</real>
 		<key>savedFrame</key>
-		<string>3 130 649 748 0 0 1440 878 </string>
+		<string>401 130 649 748 0 0 1440 878 </string>
 		<key>selectedTabView</key>
-		<string>result</string>
+		<string>event log</string>
 	</dict>
-	<key>LSUIElement</key>
-	<true/>
 </dict>
 </plist>
