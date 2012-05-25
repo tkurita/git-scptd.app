@@ -40,6 +40,20 @@ on open_terminal(a_target)
 	InferiorTerminal's do(cd_command)
 end open_terminal
 
+on export_target(a_target)
+	set a_location to choose folder with prompt "Choose a location to export:"
+	set a_destination to PathInfo's make_with(a_location)'s child(a_target's item_name() & "/")
+	set cd_command to "cd " & a_target's posix_path()'s quoted form
+	set git_command to "git checkout-index -a -f --prefix=" & a_destination's posix_path()'s quoted form
+	set all_command to cd_command & ";" & git_command
+	set a_result to do shell script "$SHELL -lc " & all_command's quoted form
+	if a_result's length is not 0 then
+		display alert a_result
+	else
+		display alert "Succeeded export"
+	end if
+end export_target
+
 on update_precommit(a_target)
 	set x_me to XFile's make_with(path to me)
 	set pre_commit to x_me's bundle_resource("pre-commit")
@@ -75,16 +89,24 @@ on process_item(a_target)
 	end if
 	activate
 	set a_result to ¬
-		choose from list {"commit -a", "push", "status -s", "diff", "-------", "Terminal", "Update pre-commit"} ¬
-			with title "Choose action for " & a_target's item_name()'s quoted form ¬
-			without multiple selections allowed and empty selection allowed
+		choose from list {"commit -a", "push", "status -s", "diff", "export", "-------", "Terminal", "GitX", "Update pre-commit"} ¬
+			with title "git-scptd" with prompt "Actions for " & a_target's item_name()'s quoted form & ¬
+			" :" without multiple selections allowed and empty selection allowed
 	if class of a_result is list then
 		set an_action to item 1 of a_result
 		set git_command to "git " & an_action
 		if an_action is "diff" then
 			return git_diff(a_target)
+		else if an_action is "export" then
+			return export_target(a_target)
 		else if an_action is "Terminal" then
 			return open_terminal(a_target)
+		else if an_action is "GitX" then
+			tell application "GitX"
+				open a_target's as_furl()
+			end tell
+			activate process identifier "nl.frim.GitX"
+			return
 		else if an_action is "Update pre-commit" then
 			return update_precommit(a_target)
 		else if an_action starts with "-----" then
