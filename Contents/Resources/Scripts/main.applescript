@@ -28,11 +28,26 @@ on update_decompile(a_target)
 	end if
 end update_decompile
 
+on do_git(a_target, git_command)
+	set cd_command to "cd " & a_target's posix_path()'s quoted form
+	set all_command to cd_command & ";" & git_command
+	return do shell script "$SHELL -lc " & all_command's quoted form
+end do_git
+
+on do_git_in_terminal(a_target, git_command)
+	set cd_command to "cd " & a_target's posix_path()'s quoted form
+	InferiorTerminal's do(cd_command & ";" & git_command)
+end do_git_in_terminal
+
 on git_diff(a_target)
 	update_decompile(a_target)
-	set cd_command to "cd " & a_target's posix_path()'s quoted form
-	--InferiorTerminal's do(cd_command & ";git diff Contents/Resources/Scripts/main.applescript")
-	InferiorTerminal's do(cd_command & ";git diff")
+	do_git_in_terminal(a_target, "git diff")
+	(*
+	set a_result to do_git(a_target, "git diff")
+	tell application "GitX"
+		show diff a_result
+	end tell
+	*)
 end git_diff
 
 on open_terminal(a_target)
@@ -43,10 +58,8 @@ end open_terminal
 on export_target(a_target)
 	set a_location to choose folder with prompt "Choose a location to export:"
 	set a_destination to PathInfo's make_with(a_location)'s child(a_target's item_name() & "/")
-	set cd_command to "cd " & a_target's posix_path()'s quoted form
 	set git_command to "git checkout-index -a -f --prefix=" & a_destination's posix_path()'s quoted form
-	set all_command to cd_command & ";" & git_command
-	set a_result to do shell script "$SHELL -lc " & all_command's quoted form
+	set a_result to do_git(a_target, git_command)
 	if a_result's length is not 0 then
 		display alert a_result
 	else
@@ -61,21 +74,24 @@ on update_precommit(a_target)
 end update_precommit
 
 on git_init(a_target)
-	set cd_command to "cd " & (a_target's posix_path()'s quoted form)
-	set all_command to cd_command & ";git init"
-	do shell script "$SHELL -lc " & (all_command's quoted form)
+	do_git(a_target, "git init")
 	update_precommit(a_target)
-	set all_command to cd_command & ";git add Contents"
-	do shell script "$SHELL -lc " & (all_command's quoted form)
+	do_git(a_target, "git add Contents")
 end git_init
 
 on modified_files(a_target)
-	set cd_command to "cd " & a_target's posix_path()'s quoted form
 	set git_command to "git status -s| grep '^ *M '|sed 's/^ *M *//g'"
-	set all_command to cd_command & ";" & git_command
-	set a_result to do shell script "$SHELL -lc " & all_command's quoted form
+	set a_result to do_git(a_target, git_command)
 	return a_result
 end modified_files
+
+on open_in_gitx(a_target)
+	update_decompile(a_target)
+	tell application "GitX"
+		open a_target's as_furl()
+	end tell
+	activate process identifier "nl.frim.GitX"
+end open_in_gitx
 
 on process_item(a_target)
 	if not a_target's child("Contents/Resources/Scripts")'s item_exists() then
@@ -102,11 +118,7 @@ on process_item(a_target)
 		else if an_action is "Terminal" then
 			return open_terminal(a_target)
 		else if an_action is "GitX" then
-			tell application "GitX"
-				open a_target's as_furl()
-			end tell
-			activate process identifier "nl.frim.GitX"
-			return
+			return open_in_gitx(a_target)
 		else if an_action is "Update pre-commit" then
 			return update_precommit(a_target)
 		else if an_action starts with "-----" then
@@ -121,9 +133,7 @@ on process_item(a_target)
 			set my _commit_msg to a_result's text returned
 			set git_command to git_command & " -m " & my _commit_msg's quoted form
 		end if
-		set cd_command to "cd " & a_target's posix_path()'s quoted form
-		set all_command to cd_command & ";" & git_command
-		set a_result to do shell script "$SHELL -lc " & all_command's quoted form
+		set a_result to do_git(a_target, git_command)
 		activate
 		if a_result's length is not 0 then
 			display alert a_result
