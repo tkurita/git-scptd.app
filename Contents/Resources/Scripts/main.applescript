@@ -55,6 +55,14 @@ on git_init(a_target)
 	do shell script "$SHELL -lc " & (all_command's quoted form)
 end git_init
 
+on modified_files(a_target)
+	set cd_command to "cd " & a_target's posix_path()'s quoted form
+	set git_command to "git status -s| grep '^ *M '|sed 's/^ *M *//g'"
+	set all_command to cd_command & ";" & git_command
+	set a_result to do shell script "$SHELL -lc " & all_command's quoted form
+	return a_result
+end modified_files
+
 on process_item(a_target)
 	if not a_target's child("Contents/Resources/Scripts")'s item_exists() then
 		error "Not a script bundle :" & return & a_target's posix_path() number 2080
@@ -67,7 +75,7 @@ on process_item(a_target)
 	end if
 	activate
 	set a_result to ¬
-		choose from list {"commit -a", "push", "status", "diff", "Terminal", "Update pre-commit"} ¬
+		choose from list {"commit -a", "push", "status -s", "diff", "-------", "Terminal", "Update pre-commit"} ¬
 			with title "Choose action for " & a_target's item_name()'s quoted form ¬
 			without multiple selections allowed and empty selection allowed
 	if class of a_result is list then
@@ -79,12 +87,18 @@ on process_item(a_target)
 			return open_terminal(a_target)
 		else if an_action is "Update pre-commit" then
 			return update_precommit(a_target)
+		else if an_action starts with "-----" then
+			return
 		else if an_action starts with "commit" then
-			set a_result to display dialog "Commit message :" default answer my _commit_msg
+			set file_list to modified_files(a_target)
+			if not file_list's length > 0 then
+				return
+			end if
+			set msg to "Modified files :" & return & file_list & return & return & "Commit message :"
+			set a_result to display dialog msg default answer my _commit_msg
 			set my _commit_msg to a_result's text returned
 			set git_command to git_command & " -m " & my _commit_msg's quoted form
 		end if
-		--do shell script "cd " & a_target's posix_path() & ";git " & an_action
 		set cd_command to "cd " & a_target's posix_path()'s quoted form
 		set all_command to cd_command & ";" & git_command
 		set a_result to do shell script "$SHELL -lc " & all_command's quoted form
@@ -92,7 +106,7 @@ on process_item(a_target)
 		if a_result's length is not 0 then
 			display alert a_result
 		else
-			display alert "Success " & an_action's quoted form
+			display alert "Succeeded " & an_action's quoted form
 		end if
 	end if
 end process_item
