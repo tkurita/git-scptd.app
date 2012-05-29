@@ -1,11 +1,14 @@
 property PathInfo : module
 property FinderSelection : module
 property FrontAccess : module
+property XList : module
 property XFile : module
 property InferiorTerminal : module
 property loader : boot (module loader) for me
 
+
 property _commit_msg : ""
+property _tag_name : ""
 
 on run
 	try
@@ -18,14 +21,25 @@ on run
 	end try
 end run
 
-
 on update_decompile(a_target)
 	set a_target to XFile's make_with_pathinfo(a_target)
-	set scpt_file to a_target's child("Contents/Resources/Scripts/main.scpt")
-	set decompiled_file to scpt_file's change_path_extension("applescript")
-	if scpt_file's info()'s modification date > decompiled_file's info()'s modification date then
-		do shell script "osadecompile " & scpt_file's posix_path()'s quoted form & " > " & decompiled_file's posix_path()'s quoted form
-	end if
+	set scpt_list to a_target's perform_shell("find", "-name '*.scpt'")
+	
+	script decompiler
+		on do(scpt_path)
+			set x_scpt to XFile's make_with(scpt_path)
+			set decompiled_file to x_scpt's change_path_extension("applescript")
+			if not decompiled_file's item_exists() then
+				return true
+			end if
+			if x_scpt's info()'s modification date > decompiled_file's info()'s modification date then
+				x_scpt's perform_shell("osadecompile", "> " & decompiled_file's quoted_path())
+			end if
+			return true
+		end do
+	end script
+	
+	XList's make_with(paragraphs of scpt_list)'s each(decompiler)
 end update_decompile
 
 on do_git(a_target, git_command)
@@ -79,11 +93,11 @@ on git_init(a_target)
 	do_git(a_target, "git add Contents")
 end git_init
 
-on modified_files(a_target)
-	set git_command to "git status -s| grep '^ *M '|sed 's/^ *M *//g'"
+on modified_added_files(a_target)
+	set git_command to "git status -s| grep '^ *[AM] '|sed 's/^ *[AM] *//g'"
 	set a_result to do_git(a_target, git_command)
 	return a_result
-end modified_files
+end modified_added_files
 
 on open_in_gitx(a_target)
 	update_decompile(a_target)
@@ -105,7 +119,7 @@ on process_item(a_target)
 	end if
 	activate
 	set a_result to ¬
-		choose from list {"commit -a", "push", "status -s", "diff", "export", "-------", "Terminal", "GitX", "Update pre-commit"} ¬
+		choose from list {"commit -a", "push", "status -s", "diff", "tag", "export", "-------", "Terminal", "GitX", "Update pre-commit"} ¬
 			with title "git-scptd" with prompt "Actions for " & a_target's item_name()'s quoted form & ¬
 			" :" without multiple selections allowed and empty selection allowed
 	if class of a_result is list then
@@ -124,14 +138,20 @@ on process_item(a_target)
 		else if an_action starts with "-----" then
 			return
 		else if an_action starts with "commit" then
-			set file_list to modified_files(a_target)
+			set file_list to modified_added_files(a_target)
 			if not file_list's length > 0 then
 				return
 			end if
 			set msg to "Modified files :" & return & file_list & return & return & "Commit message :"
+			activate
 			set a_result to display dialog msg default answer my _commit_msg
 			set my _commit_msg to a_result's text returned
 			set git_command to git_command & " -m " & my _commit_msg's quoted form
+		else if an_action is "tag" then
+			activate
+			set a_result to display dialog "Enter tag name :" default answer my _tag_name
+			set my _tag_name to a_result's text returned
+			set git_command to "git tag " & my _tag_name's quoted form
 		end if
 		set a_result to do_git(a_target, git_command)
 		activate

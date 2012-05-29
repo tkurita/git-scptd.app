@@ -1,11 +1,9 @@
 #!/bin/sh
-dir=Contents/Resources/Scripts
-find $dir -type f -name '*.scpt' | while read scpt; do
-  bname=`basename "$scpt" .scpt` 
-  test -e "$dir/$bname".applescript
-  eflag=$?
-  osadecompile $dir/$bname.scpt > $dir/$bname.applescript
-  if [ $eflag != 0 ];then
-    git add $dir/$bname.applescript
-  fi
+
+git status -s | grep '^M.*scpt' | sed 's/^M[[:space:]]*//g' | while read scpt; do
+   bname=`basename "$scpt" .scpt`
+   dir=`dirname $scpt`
+   osadecompile $scpt > $dir/$bname.applescript
+   git add $dir/$bname.applescript
 done
+
