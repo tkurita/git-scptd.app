@@ -23,7 +23,7 @@ end run
 
 on update_decompile(a_target)
 	set a_target to XFile's make_with_pathinfo(a_target)
-	set scpt_list to a_target's perform_shell("find", "-name '*.scpt'")
+	set scpt_list to a_target's perform_shell("find %s -name '*.scpt'")
 	
 	script decompiler
 		on do(scpt_path)
@@ -33,7 +33,7 @@ on update_decompile(a_target)
 				return true
 			end if
 			if x_scpt's info()'s modification date > decompiled_file's info()'s modification date then
-				x_scpt's perform_shell("osadecompile", "> " & decompiled_file's quoted_path())
+				x_scpt's perform_shell("osadecompile %s > " & decompiled_file's quoted_path())
 			end if
 			return true
 		end do
@@ -56,13 +56,11 @@ end do_git_in_terminal
 on git_diff(a_target)
 	update_decompile(a_target)
 	do_git_in_terminal(a_target, "git diff")
-	(*
-	set a_result to do_git(a_target, "git diff")
-	tell application "GitX"
-		show diff a_result
-	end tell
-	*)
 end git_diff
+
+on git_log(a_target)
+	do_git_in_terminal(a_target, "git log")
+end git_log
 
 on open_terminal(a_target)
 	set cd_command to "cd " & a_target's posix_path()'s quoted form
@@ -93,6 +91,14 @@ on git_init(a_target)
 	do_git(a_target, "git add Contents")
 end git_init
 
+on git_status(a_target, git_command)
+	set a_result to do_git(a_target, git_command)
+	if a_result's length is 0 then
+		set a_result to do_git(a_target, "git status")
+	end if
+	display alert a_result
+end git_status
+
 on modified_added_files(a_target)
 	set git_command to "git status -s| grep '^ *[AM] '|sed 's/^ *[AM] *//g'"
 	set a_result to do_git(a_target, git_command)
@@ -119,7 +125,7 @@ on process_item(a_target)
 	end if
 	activate
 	set a_result to ¬
-		choose from list {"commit -a", "push", "status -s", "diff", "tag", "export", "-------", "Terminal", "GitX", "Update pre-commit"} ¬
+		choose from list {"commit -a", "push", "status -s", "log", "diff", "tag", "export", "-------", "Terminal", "GitX", "Update pre-commit"} ¬
 			with title "git-scptd" with prompt "Actions for " & a_target's item_name()'s quoted form & ¬
 			" :" without multiple selections allowed and empty selection allowed
 	if class of a_result is list then
@@ -127,6 +133,10 @@ on process_item(a_target)
 		set git_command to "git " & an_action
 		if an_action is "diff" then
 			return git_diff(a_target)
+		else if an_action is "log" then
+			return git_log(a_target)
+		else if an_action starts with "status" then
+			return git_status(a_target, git_command)
 		else if an_action is "export" then
 			return export_target(a_target)
 		else if an_action is "Terminal" then
