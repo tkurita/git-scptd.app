@@ -1,9 +1,7 @@
 #!/bin/sh
 
 git status -s | grep '^M.*scpt' | sed 's/^M[[:space:]]*//g' | while read scpt; do
-   bname=`basename "$scpt" .scpt`
-   dir=`dirname $scpt`
-   osadecompile $scpt > $dir/$bname.applescript
-   git add $dir/$bname.applescript
+   if [ $(git diff HEAD -- "$scpt" | wc -l) -eq 0 ];then
+       git reset HEAD -- "$scpt"
+   fi
 done
-
