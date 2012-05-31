@@ -1,7 +1,16 @@
 #!/bin/sh
 
-git status -s | grep '^M.*scpt' | sed 's/^M[[:space:]]*//g' | while read scpt; do
-   if [ $(git diff HEAD -- "$scpt" | wc -l) -eq 0 ];then
-       git reset HEAD -- "$scpt"
-   fi
-done
+staged_files=$(git status -s | grep '^[MADRC]')
+if [ $(printf "$staged_files" | wc -c) -ne 0 ]; then
+    printf "$staged_files" | grep '^M.*scpt' | sed 's/^M[[:space:]]*//g' | while read scpt
+    do
+        if [ $(git diff HEAD -- "$scpt" | wc -l) -eq 0 ];then
+            git reset HEAD -- "$scpt"
+        fi
+    done
+    
+    if [ $(git status -s | grep '^[MADRC]' | wc -l) -eq 0 ]; then
+        echo "Commit canceled."
+        exit 1
+    fi
+fi
