@@ -23,6 +23,8 @@
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>droplet</string>
+	<key>CFBundleGetInfoString</key>
+	<string>1.0 copyright 2012, Tetsuro KURITA</string>
 	<key>CFBundleIconFile</key>
 	<string>droplet</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -31,17 +33,23 @@
 	<string>git-scptd</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>dplt</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>
 	<dict>
 		<key>x86_64</key>
 		<string>10.6</string>
 	</dict>
 	<key>LSRequiresCarbon</key>
-	<true/>
+	<false/>
 	<key>LSUIElement</key>
 	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright 2012, Tetsuro KURITA</string>
 	<key>WindowState</key>
 	<dict>
 		<key>dividerCollapsed</key>
