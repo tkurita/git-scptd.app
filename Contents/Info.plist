@@ -28,7 +28,7 @@
 	<key>CFBundleIconFile</key>
 	<string>droplet</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.apple.ScriptEditor.id.BAA6CBD4-576C-4D5B-890D-B9717950BD7F</string>
+	<string>Scriptfactory.git-scptd</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
