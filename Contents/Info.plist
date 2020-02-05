@@ -36,11 +36,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.3</string>
+	<string>1.0.4b</string>
 	<key>CFBundleSignature</key>
 	<string>dplt</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.3</string>
+	<string>1.0.4b</string>
 	<key>LSMinimumSystemVersionByArchitecture</key>
 	<dict>
 		<key>x86_64</key>
@@ -50,6 +50,8 @@
 	<false/>
 	<key>LSUIElement</key>
 	<true/>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>This script needs to control other applications to run.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright 2012-2019, Tetsuro KURITA</string>
 	<key>WindowState</key>
@@ -59,7 +61,7 @@
 		<key>bundlePositionOfDivider</key>
 		<real>687</real>
 		<key>dividerCollapsed</key>
-		<true/>
+		<false/>
 		<key>eventLogLevel</key>
 		<integer>2</integer>
 		<key>name</key>
