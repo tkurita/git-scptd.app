@@ -25,6 +25,10 @@
 	<string>droplet</string>
 	<key>CFBundleGetInfoString</key>
 	<string>1.0.2 copyright 2012, Tetsuro KURITA</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>git-scptdHelp</string>
+	<key>CFBundleHelpBookName</key>
+	<string>net.script-factory.git-scptd.help</string>
 	<key>CFBundleIconFile</key>
 	<string>droplet</string>
 	<key>CFBundleIdentifier</key>
@@ -61,15 +65,15 @@
 		<key>bundlePositionOfDivider</key>
 		<real>687</real>
 		<key>dividerCollapsed</key>
-		<false/>
+		<true/>
 		<key>eventLogLevel</key>
 		<integer>2</integer>
 		<key>name</key>
 		<string>ScriptWindowState</string>
 		<key>positionOfDivider</key>
-		<real>558</real>
+		<real>361</real>
 		<key>savedFrame</key>
-		<string>359 181 986 696 0 0 1440 877 </string>
+		<string>133 181 986 696 0 0 1440 877 </string>
 		<key>selectedTab</key>
 		<string>log</string>
 	</dict>

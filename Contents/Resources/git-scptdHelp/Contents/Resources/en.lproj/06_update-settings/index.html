@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <!-- InstanceBegin template="../../../../../../_Templates/helpbook-page.dwt" -->
+
+    <head>
+      <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+      
+      <title>Update Settings</title>
+      <meta name="description" content="You can update settings of existing repository." />
+      
+      <!-- #BeginHeadLocked "" -->
+        <link href="../../ja.lproj/01_what/assets/helpbook-default.css" type="text/css" rel="stylesheet" media="all" />
+        <link href="../../ja.lproj/01_what/assets/helpbook-navibar.css" type="text/css" rel="stylesheet" media="all" />
+        <script type="text/javascript" src="../../ja.lproj/01_what/assets/navibar-jump.js"></script>
+      <!-- #EndHeadLocked -->
+    </head>
+
+    <body>
+      <!-- InstanceBeginEditable name="navi-bar" --><div id="navi-bar"><span class="navibar-item"><a href="../index.html">git-scptd Help</a></span><span class="navibar-item">Update Settings</span></div>
+<div class="prev-next-item"><a href="../05_external-tools/index.html"><span class="navibar-prev">Launching Extrnal Tools</span></a>|<a href="../07_history/index.html"><span class="navibar-next">git-scptd history</span></a></div><!-- InstanceEndEditable -->
+      <div id="contents">
+        <!-- InstanceBeginEditable name="Body" -->
+          <h1>Update Settings</h1>
+          
+          <p>The &quot;Update Settings&quot; command apply following settings to the repository again.</p>
+          <ul>
+            <li>Set the filter used for &quot;git diff&quot; to &quot;.scpt&quot; files.
+              <ul>
+                <li>Set up .git/info/attributes file.</li>
+                <li>Run &quot;git config diff.osascript.textconv osadecompile&quot;</li>
+              </ul>
+            </li>
+            <li>Setup .pre-commit hook.
+              <ul>
+                <li>Prevent commits &quot;.scpt&quot; files, if &quot;git diff&quot; reslut shows no changes.</li>
+              </ul>
+            </li>
+          </ul>
+          <p>This command is useful when &quot;git-scptd&quot; is updated or repository settings are lost.</p>
+          <!-- InstanceEndEditable --></div>
+      <!-- InstanceBeginEditable name="prev-next-item" --><div class="prev-next-item"><a href="../05_external-tools/index.html"><span class="navibar-prev">Launching Extrnal Tools</span></a>|<a href="../07_history/index.html"><span class="navibar-next">git-scptd history</span></a></div><!-- InstanceEndEditable -->
+      <div class="footer">
+        <p>This page was last built on <csobj format="MedDate" h="10" region="0" t="DateTime" w="74">Mon, Feb 17, 2020</csobj> ; <csobj format="LongTime" h="10" region="0" t="DateTime" w="51">12:20:42 AM</csobj> . Thanks for checking it out!</p>
+      </div>
+    </body>
+
+  <!-- InstanceEnd -->
+
+</html>

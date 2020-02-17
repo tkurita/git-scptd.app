@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <!-- InstanceBegin template="../../../../../../_Templates/helpbook-page.dwt" -->
+
+    <head>
+      <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+      
+      <title>バージョン管理を開始する</title>
+      <meta name="description" content="スクリプトエディタで開いているスクリプトバンドル/アプリケーションに git レポジトリをセットアップします。" />
+      
+      <!-- #BeginHeadLocked "" -->
+        <link href="../01_what/assets/helpbook-default.css" type="text/css" rel="stylesheet" media="all" />
+        <link href="../01_what/assets/helpbook-navibar.css" type="text/css" rel="stylesheet" media="all" />
+        <script type="text/javascript" src="../01_what/assets/navibar-jump.js"></script>
+      <!-- #EndHeadLocked -->
+    </head>
+
+    <body>
+      <!-- InstanceBeginEditable name="navi-bar" --><div id="navi-bar"><span class="navibar-item"><a href="../index.html">git-scptd ヘルプ</a></span><span class="navibar-item">バージョン管理を開始する</span></div>
+<div class="prev-next-item"><a href="../02_requirements/index.html"><span class="navibar-prev">必要なシステム</span></a>|<a href="../04_first-commit/index.html"><span class="navibar-next">最初のコミット</span></a></div><!-- InstanceEndEditable -->
+      <div id="contents">
+        <!-- InstanceBeginEditable name="Body" -->
+        <h1>バージョン管理を開始する</h1>
+        
+          <p>まずは Script エディタでスクリプトバンドルを開いてください。そして、git-scptd をスクリプトメニューから起動します。git-scptd は起動時に、最前面にある書類を対象とするので、なんらかのランチャーを使って実行してください。僕は、LaunchBar を使っています。</p>
+          <p>すると、まず最初に git init を実行して repository を作るか聞いてきます。</p>
+          
+          <p class="figure"><img src="assets/git-init-dialog.png" alt="" height="208" width="564" border="0" /></p>
+          
+          <p>上記のダイアログで OK ボタンを押すと、git init を実行して、repository の作成だけではなく、</p>
+          <ul>
+            <li>バンドル内の Contents を add する。</li>
+            <li>.scpt ファイルの diff を実行する際に使うフィルターの設定。
+              <ul>
+                <li>.git/info/attributes のファイルの設定。</li>
+                <li>git config diff.osascript.textconv osadecompile を実行。</li>
+              </ul>
+            </li>
+            <li>.git/hooks/.pre-commit の設定。
+              <ul>
+                <li>.scpt ファイルの diff をとって、変更が無い場合は、.scpt のコミットを抑制する。</li>
+              </ul>
+            </li>
+          </ul>
+          <p>を行います。</p>
+          <!-- InstanceEndEditable --></div>
+      <!-- InstanceBeginEditable name="prev-next-item" --><div class="prev-next-item"><a href="../02_requirements/index.html"><span class="navibar-prev">必要なシステム</span></a>|<a href="../04_first-commit/index.html"><span class="navibar-next">最初のコミット</span></a></div><!-- InstanceEndEditable -->
+      <div class="footer">
+        <p>This page was last built on <csobj format="MedDate" h="10" region="0" t="DateTime" w="72">Sun, Feb 16, 2020</csobj> ; <csobj format="LongTime" h="10" region="0" t="DateTime" w="45">6:43:46 PM</csobj> . Thanks for checking it out!</p>
+      </div>
+    </body>
+
+  <!-- InstanceEnd -->
+
+</html>

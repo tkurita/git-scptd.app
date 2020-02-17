@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+  <!-- InstanceBegin template="../../../../../../_Templates/helpbook-page.dwt" -->
+
+    <head>
+      <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+      
+      <title>Starting Version Control</title>
+      <meta name="description" content="Set up a git repository for a script bundle or a script application opened with Script Editor." />
+      
+      <!-- #BeginHeadLocked "" -->
+        <link href="../../ja.lproj/01_what/assets/helpbook-default.css" type="text/css" rel="stylesheet" media="all" />
+        <link href="../../ja.lproj/01_what/assets/helpbook-navibar.css" type="text/css" rel="stylesheet" media="all" />
+        <script type="text/javascript" src="../../ja.lproj/01_what/assets/navibar-jump.js"></script>
+      <!-- #EndHeadLocked -->
+    </head>
+
+    <body>
+      <!-- InstanceBeginEditable name="navi-bar" --><div id="navi-bar"><span class="navibar-item"><a href="../index.html">git-scptd Help</a></span><span class="navibar-item">Starting Version Control</span></div>
+<div class="prev-next-item"><a href="../02_requirements/index.html"><span class="navibar-prev">Requirements</span></a>|<a href="../04_first-commit/index.html"><span class="navibar-next">First Commit</span></a></div><!-- InstanceEndEditable -->
+      <div id="contents">
+        <!-- InstanceBeginEditable name="Body" -->
+        <h1>Starting Version Control</h1>
+        
+          <p>As a beginning, open a script bundle with the &quot;Script Editor&quot;. Then launch &quot;git-scptd&quot; from &quot;Script Menu&quot;. &quot;git-scptd&quot; must be launched with a lancher utility, because &quot;git-scptd&quot; procecess the frontmost document. I usually launch &quot;git-scptd&quot; from LaunchBar.</p>
+          
+          <p class="figure"><img src="../../ja.lproj/03_start-vers-ctrl/assets/git-init-dialog.png" alt="" height="208" width="564" border="0" /></p>
+          
+          <p>If the "OK" button in above dialog is pushed, a repository will be created in the bundle with "git init" command. Also following tasks will be proccessed.</p>
+          <ul>
+            <li>The &quot;Contents&quot; folder in the bundle is staged for the next commit with &quot;git add&quot; command.</li>
+            <li>Set the filter used for &quot;git diff&quot; to &quot;.scpt&quot; files.
+              <ul>
+                <li>Set up .git/info/attributes file.</li>
+                <li>Run &quot;git config diff.osascript.textconv osadecompile&quot;</li>
+              </ul>
+            </li>
+            <li>Setup .git/hooks/.pre-commit file.
+              <ul>
+                <li>Prevent commits &quot;.scpt&quot; files, if &quot;git diff&quot; reslut shows no changes.</li>
+              </ul>
+            </li>
+          </ul>
+          <!-- InstanceEndEditable --></div>
+      <!-- InstanceBeginEditable name="prev-next-item" --><div class="prev-next-item"><a href="../02_requirements/index.html"><span class="navibar-prev">Requirements</span></a>|<a href="../04_first-commit/index.html"><span class="navibar-next">First Commit</span></a></div><!-- InstanceEndEditable -->
+      <div class="footer">
+        <p>This page was last built on <csobj format="MedDate" h="10" region="0" t="DateTime" w="72">Sun, Feb 16, 2020</csobj> ; <csobj format="LongTime" h="10" region="0" t="DateTime" w="45">6:43:46 PM</csobj> . Thanks for checking it out!</p>
+      </div>
+    </body>
+
+  <!-- InstanceEnd -->
+
+</html>
