@@ -31,7 +31,7 @@ Japanese :
 [ModuleLoader]: hhttps://github.com/tkurita/ModuleLoader4
 [XList]: http://www.script-factory.net/XModules/XList/en/index.html
 [PathInfo]: http://www.script-factory.net/XModules/PathInfo/en/index.html
-[XFile]: : http://www.script-factory.net/XModules/XFile/en/index.html
+[XFile]: http://www.script-factory.net/XModules/XFile/en/index.html
 [FinderSelection]: http://www.script-factory.net/XModules/FinderSelection/index.html
 [FrontAccess]: http://www.script-factory.net/XModules/FrontAccess/en/index.html
 [XActivate]: http://www.script-factory.net/XModules/XActivate/en/index.html
